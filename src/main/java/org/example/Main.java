@@ -31,7 +31,6 @@ public class Main {
         put("Fotos", new ArrayList<>(List.of("foto1.png", "foto2.png")));
         }};
 
-        System.out.println(producto2.size());
         do {
             System.out.println(" **** BIENVENIDO AL PROGRAMA ****");
             System.out.println("Que desea hacer?");
@@ -95,13 +94,13 @@ public class Main {
                     break;
 
                 case 2:
-                    if(producto2.size() == 0){
+                    if(producto.size() == 0){
                         System.out.println("Lo siento no tiene productos agregados agregue uno primero");
                         break;
                     }
 
                     else {
-                        for (Map.Entry<String, Object> dic : producto2.entrySet()){
+                        for (Map.Entry<String, Object> dic : producto.entrySet()){
                             String key = dic.getKey();
                             Object value = dic.getValue();
                             System.out.println(key + ": " + value);
@@ -119,7 +118,7 @@ public class Main {
 
                 case 3:
                     System.out.println("Que desea modificar?");
-                    for (Map.Entry<String, Object> dic : producto2.entrySet()){
+                    for (Map.Entry<String, Object> dic : producto.entrySet()){
                         String key = dic.getKey();
                         Object value = dic.getValue();
                         System.out.println("La llave es " + key + " y el valor que guarda es " + value);
@@ -132,28 +131,29 @@ public class Main {
                         System.out.println("Ingrese el nuevo dato");
                         int userGetValue = sc.nextInt();
 
-                        producto2.put(userGetKey, userGetValue);
+                        producto.put(userGetKey, userGetValue);
                         System.out.println("Dato " + userGetKey + " Actualizado Exitosamente!!!!!!");
                     }
                     else if (userGetKey.equalsIgnoreCase("Nombre") || userGetKey.equalsIgnoreCase("Descripcion") || userGetKey.equalsIgnoreCase("Categoria")) {
                         System.out.println("Ingrese el nuevo dato");
+                        sc.nextLine();
                         String userGetValue = sc.nextLine();
 
-                        producto2.put(userGetKey, userGetValue);
+                        producto.put(userGetKey, userGetValue);
                         System.out.println("Dato " + userGetKey + " Actualizado Exitosamente!!!!!!");
                     }
                     else if (userGetKey.equalsIgnoreCase("Precio")) {
                         System.out.println("Ingrese el nuevo dato");
                         Float userGetValue = sc.nextFloat();
 
-                        producto2.put(userGetKey, userGetValue);
+                        producto.put(userGetKey, userGetValue);
                         System.out.println("Dato " + userGetKey + " Actualizado Exitosamente!!!!!!");
                     }
                     else if (userGetKey.equalsIgnoreCase("Caducidad")) {
                         System.out.println("Ingrese el nuevo dato");
                         boolean userGetValue = sc.nextBoolean();
 
-                        producto2.put(userGetKey, userGetValue);
+                        producto.put(userGetKey, userGetValue);
                         System.out.println("Dato " + userGetKey + " Actualizado Exitosamente!!!!!!");
                     }
                     else if (userGetKey.equalsIgnoreCase("FechaVencimiento")) {
@@ -161,14 +161,14 @@ public class Main {
                         int userGetValue = sc.nextInt();
                         LocalDate userNewTime = LocalDate.now();
 
-                        producto2.put(userGetKey, userNewTime.plusDays(userGetValue));
+                        producto.put(userGetKey, userNewTime.plusDays(userGetValue));
                         System.out.println("Dato " + userGetKey + " Actualizado Exitosamente!!!!!!");
                     }
 
                     break;
 
                 case 4:
-                    if (producto2.size() <= 0) {
+                    if (producto.size() <= 0) {
                         System.out.println("Error debe agregar un producto primero");
                         break;
                     }
@@ -176,28 +176,40 @@ public class Main {
                         System.out.println("Esta seguro que desea eliminar el producto? SI/ NO");
                         String userAnswer = sc.next().toLowerCase();
                         if(userAnswer.equals("si")){
-                            producto2.clear();
+                            producto.clear();
                             System.out.println("Producto Eliminado Exitosamente");
                         }
                     }
                     break;
 
                 case 5:
-                    LocalDate fechaDiccionario = (LocalDate) producto2.get("FechaVencimiento");
-                    LocalDate fechaHoy = LocalDate.now();
-                    long diasRestantes = ChronoUnit.DAYS.between(fechaHoy, fechaDiccionario);
-                    if(diasRestantes < 0) {
-                        System.out.println("Su producto esta vencido");
-                    }
-                    else if (diasRestantes == 0){
-                        System.out.println("El producto vence hoy");
+                    if (producto.size() <= 0) {
+                        System.out.println("Error debe agregar un producto primero");
+                        break;
                     }
                     else {
-                        System.out.println("Su producto todavia le quedan " + diasRestantes + " Dias para que caduque");
+                        LocalDate fechaDiccionario = (LocalDate) producto.get("FechaVencimiento");
+                        LocalDate fechaHoy = LocalDate.now();
+                        long diasRestantes = ChronoUnit.DAYS.between(fechaHoy, fechaDiccionario);
+                        if(diasRestantes < 0) {
+                            System.out.println("Su producto esta vencido");
+                        }
+                        else if (diasRestantes == 0){
+                            System.out.println("El producto vence hoy");
+                        }
+                        else {
+                            System.out.println("Su producto todavia le quedan " + diasRestantes + " Dias para que caduque");
+                        }
+
+                        try{
+                            Thread.sleep(3000);
+                        }
+                        catch (InterruptedException e ) {
+                            e.printStackTrace();
+                        }
                     }
 
                     break;
-
 
                 case 6:
                     System.exit(1);
